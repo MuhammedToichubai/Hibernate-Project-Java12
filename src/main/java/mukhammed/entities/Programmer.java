@@ -1,13 +1,12 @@
 package mukhammed.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.CascadeType.*;
 
 /**
  * @author Mukhammed Asantegin
@@ -24,7 +23,7 @@ import java.util.List;
 public class Programmer extends BaseEntity{
     private String fullName;
     private String email;
-    @ManyToMany(mappedBy = "programmers")
+    @ManyToMany(mappedBy = "programmers", cascade = {PERSIST, DETACH, REFRESH, MERGE})
     private List<Project> projects;
 
     public void addProject(Project project) {

@@ -48,4 +48,13 @@ public class ProgrammerService {
        }
         return programmerDao.assignProgrammersToProject(programmersIds, projectId);
     }
+
+    public String deleteById(Long id) {
+        try {
+            findById(id);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        return programmerDao.deleteById(id);
+    }
 }

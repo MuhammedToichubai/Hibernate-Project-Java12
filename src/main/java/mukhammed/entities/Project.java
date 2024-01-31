@@ -3,8 +3,11 @@ package mukhammed.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.CascadeType.*;
 
 /**
  * @author Mukhammed Asantegin
@@ -24,12 +27,7 @@ public class Project extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
-    @ManyToMany
-//    @JoinTable(
-//            name = "projects_programmers",
-//            joinColumns = @JoinColumn(name = "project_id"),
-//            inverseJoinColumns = @JoinColumn(name = "programmer_id")
-//    )
+    @ManyToMany(cascade = {PERSIST, DETACH, REFRESH, MERGE})
     private List<Programmer> programmers;
 
     public Project(String title) {

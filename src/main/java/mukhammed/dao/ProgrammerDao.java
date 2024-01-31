@@ -93,4 +93,25 @@ public class ProgrammerDao {
         }
         return "Assign programmers to project success";
     }
+
+    public String deleteById(Long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            Programmer programmer = entityManager.find(Programmer.class, id);
+            programmer.getProjects().clear();
+            entityManager.createQuery("delete from Programmer p where p.id = :parId")
+                            .setParameter("parId", id)
+                                    .executeUpdate();
+            entityManager.getTransaction().commit();
+
+        }catch (Exception e){
+            if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
+            return e.getMessage();
+        }
+        finally {
+            entityManager.close();
+        }
+        return "Programmer with id: "+id+" deleted!";
+    }
 }

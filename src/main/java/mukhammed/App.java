@@ -180,6 +180,9 @@ public class App {
 
                 }
                 case 23 ->{ //delete
+                    System.out.print("Write programmer id for delete: ");
+                    String message = programmerService.deleteById(scannerN.nextLong());
+                    System.out.println(message);
 
                 }
                 case 24 ->{ //update
