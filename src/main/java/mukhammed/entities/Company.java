@@ -3,6 +3,8 @@ package mukhammed.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 import static jakarta.persistence.CascadeType.*;
 
 /**
@@ -15,12 +17,14 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString(callSuper = true)
-@SequenceGenerator(name = "base_id_gen", sequenceName = "company", allocationSize = 1, initialValue = 1)
+@ToString(callSuper = true, exclude = "projects")
+@SequenceGenerator(name = "base_id_gen", sequenceName = "company_seq", allocationSize = 1, initialValue = 1)
 public class Company extends BaseEntity {
     private String name;
     @OneToOne(cascade = {REMOVE}, orphanRemoval = true)
     private Address address;
+    @OneToMany(mappedBy = "company")
+    private List<Project> projects;
 
     public Company(String name) {
         this.name = name;

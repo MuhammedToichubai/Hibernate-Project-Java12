@@ -2,8 +2,10 @@ package mukhammed;
 
 import mukhammed.entities.Address;
 import mukhammed.entities.Company;
+import mukhammed.entities.Project;
 import mukhammed.services.AddressService;
 import mukhammed.services.CompanyService;
+import mukhammed.services.ProjectService;
 
 import java.util.Scanner;
 
@@ -19,16 +21,17 @@ public class App
         // Services
         AddressService addressService = new AddressService();
         CompanyService companyService = new CompanyService();
+        ProjectService projectService = new ProjectService();
 
         while (true){
             System.out.println("""
-                              Address
+                              "Address"
                     1.  Save 
                     2.  Delete 
                     3.  Update 
                     4.  Find by id
                     5.  Find all
-                               Company
+                               "Company"
                     6.  Save 
                     7.  Delete 
                     8.  Update 
@@ -36,7 +39,15 @@ public class App
                     10. Find all
                     11. Assign Company to Address
                     12. Find Company By Address Id
-                    
+                              "Project"
+                    13.  Save Project
+                    14.  Save Project to Company
+                    15.  Assign Project to Company
+                    16.  Delete 
+                    17.  Update 
+                    18.  Find by id
+                    19.  Find all
+               
                     """);
 
             switch (scannerN.nextInt()){
@@ -95,6 +106,10 @@ public class App
                     Long addressId = scannerN.nextLong();
                     Company company = companyService.findCompanyByAddressId(addressId);
                     System.out.println(company);
+                }
+                // Project CRUD
+                case 13 ->{
+                    System.out.println(projectService.save(Project.builder().title("LMS").build()));
                 }
             }
         }
