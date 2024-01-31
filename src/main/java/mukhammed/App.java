@@ -9,6 +9,7 @@ import mukhammed.services.CompanyService;
 import mukhammed.services.ProgrammerService;
 import mukhammed.services.ProjectService;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -173,6 +174,9 @@ public class App {
 
                 }
                 case 22 ->{ //assign programmers to project
+                    List<Long> programmersIds = List.of(2L, 3L, 4L);
+                    System.out.println(programmerService.assignProgrammersToProject(programmersIds, 5L));
+
 
                 }
                 case 23 ->{ //delete
@@ -190,4 +194,5 @@ public class App {
             }
         }
     }
+
 }

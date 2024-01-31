@@ -25,6 +25,11 @@ public class Project extends BaseEntity{
     private Company company;
 
     @ManyToMany
+//    @JoinTable(
+//            name = "projects_programmers",
+//            joinColumns = @JoinColumn(name = "project_id"),
+//            inverseJoinColumns = @JoinColumn(name = "programmer_id")
+//    )
     private List<Programmer> programmers;
 
     public Project(String title) {
