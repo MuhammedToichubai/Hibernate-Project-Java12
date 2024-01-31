@@ -49,7 +49,7 @@ public class App {
                     17.  Update 
                     18.  Find by id
                     19.  Find all
-                   
+                                       
                          "Programmers"
                     20.  Save 
                     21.  Assign Programmer to Project
@@ -148,13 +148,17 @@ public class App {
                 }
                 case 18 -> { //findById
                     System.out.print("Write project id: ");
-                    System.out.println(projectService.findById(scannerN.nextLong()));
+                    try {
+                        System.out.println(projectService.findById(scannerN.nextLong()));
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
                 case 19 -> { //findAll
                     projectService.findAll().forEach(System.out::println);
                 }
                 //Programmer CRUD
-                case 20 ->{ //save
+                case 20 -> { //save
                     String message = programmerService.save(
                             Programmer.builder()
                                     .fullName("Mukhammed Asantegin")
@@ -164,7 +168,7 @@ public class App {
                     System.out.println(message);
 
                 }
-                case 21 ->{ //assign programmer to project
+                case 21 -> { //assign programmer to project
                     System.out.print("Write programmer id: ");
                     Long programmerId = scannerN.nextLong();
                     System.out.print("Write project id: ");
@@ -173,25 +177,40 @@ public class App {
                             programmerService.assignProgrammerToProject(programmerId, projectId);
 
                 }
-                case 22 ->{ //assign programmers to project
+                case 22 -> { //assign programmers to project
                     List<Long> programmersIds = List.of(2L, 3L, 4L);
                     System.out.println(programmerService.assignProgrammersToProject(programmersIds, 5L));
 
 
                 }
-                case 23 ->{ //delete
+                case 23 -> { //delete
                     System.out.print("Write programmer id for delete: ");
                     String message = programmerService.deleteById(scannerN.nextLong());
                     System.out.println(message);
 
                 }
-                case 24 ->{ //update
+                case 24 -> { //update
+                    System.out.print("Write programmer id: ");
+                    String message =
+                            programmerService.update(
+                                    scannerN.nextLong(),
+                                    Programmer.builder()
+                                            .fullName("Amigos code")
+                                            .email("a.code@gmail.com")
+                                            .build());
+                    System.out.println(message);
+                }
+                case 25 -> { //findById
+                    System.out.print("Write programmer id: ");
+                    try {
+                        System.out.println(programmerService.findById(scannerN.nextLong()));
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
 
                 }
-                case 25 ->{ //findById
-
-                }
-                case 26 ->{ //findAll
+                case 26 -> { //findAll
+                    programmerService.findAll().forEach(System.out::println);
 
                 }
             }

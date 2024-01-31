@@ -57,4 +57,17 @@ public class ProgrammerService {
         }
         return programmerDao.deleteById(id);
     }
+
+    public String update(Long id, Programmer programmer) {
+        try {
+            findById(id);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return programmerDao.update(id, programmer);
+    }
+
+    public List<Programmer> findAll() {
+        return programmerDao.findAll();
+    }
 }

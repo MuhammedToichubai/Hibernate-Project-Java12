@@ -6,6 +6,7 @@ import mukhammed.config.DatabaseConnection;
 import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ public class ProgrammerDao {
         } finally {
             entityManager.close();
         }
-        return "Successfully assign Project: " +programmer.getFullName();
+        return "Successfully assign Project: " + programmer.getFullName();
     }
 
     public String assignProgrammersToProject(List<Long> programmersIds, Long projectId) {
@@ -85,10 +86,10 @@ public class ProgrammerDao {
             project.getProgrammers().addAll(programmers);
 
             entityManager.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
             return e.getMessage();
-        }finally {
+        } finally {
             entityManager.close();
         }
         return "Assign programmers to project success";
@@ -101,17 +102,62 @@ public class ProgrammerDao {
             Programmer programmer = entityManager.find(Programmer.class, id);
             programmer.getProjects().clear();
             entityManager.createQuery("delete from Programmer p where p.id = :parId")
-                            .setParameter("parId", id)
-                                    .executeUpdate();
+                    .setParameter("parId", id)
+                    .executeUpdate();
             entityManager.getTransaction().commit();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
             return e.getMessage();
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
-        return "Programmer with id: "+id+" deleted!";
+        return "Programmer with id: " + id + " deleted!";
+    }
+
+    public String update(Long id, Programmer programmer) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.createQuery(
+                            """
+                                    update Programmer set fullName = :parFullName, email = :parEmail
+                                    where id = :parId
+                                     """
+                    )
+                    .setParameter("parFullName", programmer.getFullName())
+                    .setParameter("parEmail", programmer.getEmail())
+                    .setParameter("parId", id)
+                    .executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
+            return e.getMessage();
+        }finally {
+            entityManager.close();
+        }
+        return "Programmer with id: "+id+" updated!";
+    }
+
+    public List<Programmer> findAll() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Programmer> programmers = new ArrayList<>();
+        try {
+            entityManager.getTransaction().begin();
+//            programmers = entityManager
+//                    .createQuery("select p from Programmer p", Programmer.class)
+//                    .getResultList();
+            // Version 2
+            programmers = entityManager
+                    .createNativeQuery("select * from programmers", Programmer.class)
+                            .getResultList();
+            entityManager.getTransaction().commit();
+        }catch (Exception e){
+            if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
+            System.err.println(e.getMessage());
+        }finally {
+            entityManager.close();
+        }
+        return programmers;
     }
 }
