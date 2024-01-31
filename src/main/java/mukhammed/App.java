@@ -111,6 +111,10 @@ public class App
                 case 13 ->{
                     System.out.println(projectService.save(Project.builder().title("LMS").build()));
                 }
+                case 14 ->{
+                    System.out.print("Write company id, for assign new project: ");
+                    System.out.println(projectService.save(scannerN.nextLong(), new Project("TRACK")));
+                }
             }
         }
 

@@ -20,4 +20,7 @@ public class Project extends BaseEntity{
     @ManyToOne
     private Company company;
 
+    public Project(String title) {
+        this.title = title;
+    }
 }
