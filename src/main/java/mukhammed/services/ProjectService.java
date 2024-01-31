@@ -18,21 +18,44 @@ public class ProjectService {
         } catch (Exception e) {
             return e.getMessage();
         }
-        return "Successfully saved Project with name: "+newProject.getTitle();
+        return "Successfully saved Project with name: " + newProject.getTitle();
 
     }
 
     public String save(Long companyId, Project newProject) {
-        Company company = null ;
+        Company company = null;
         try {
             company = companyDao.findById(companyId)
                     .orElseThrow(() ->
-                            new RuntimeException("Company with id: "+ companyId+" not found"));
+                            new RuntimeException("Company with id: " + companyId + " not found"));
         } catch (RuntimeException e) {
             return e.getMessage();
         }
         projectDao.save(companyId, newProject);
-        return "Project successfully saved, with name: "+ newProject.getTitle();
+        return "Project successfully saved, with name: " + newProject.getTitle();
 
+    }
+
+    public String assignProjectToCompany(Long companyId, Long projectId) {
+        try {
+            Company company = companyDao.findById(companyId)
+                    .orElseThrow(() ->
+                            new RuntimeException("Company with id: " + companyId + " not found"));
+
+            Project project = findById(projectId);
+            company.getProjects().add(project);
+            project.setCompany(company);
+        } catch (RuntimeException e) {
+           return e.getMessage();
+        }
+        projectDao.assignProjectToCompany(companyId, projectId);
+
+        return null;
+    }
+
+    private Project findById(Long id) {
+        return projectDao.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Project with id: " + id + " not found!"));
     }
 }

@@ -3,6 +3,7 @@ package mukhammed.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
@@ -30,4 +31,8 @@ public class Company extends BaseEntity {
         this.name = name;
     }
 
+    public void addProject(Project project) {
+        if (projects == null) projects = new ArrayList<>();
+        projects.add(project);
+    }
 }

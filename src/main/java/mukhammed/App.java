@@ -115,8 +115,15 @@ public class App
                     System.out.print("Write company id, for assign new project: ");
                     System.out.println(projectService.save(scannerN.nextLong(), new Project("TRACK")));
                 }
+                case 15 ->{
+                    System.out.print("Write company id: ");
+                    Long companyId = scannerN.nextLong();
+                    System.out.print("Write project id: ");
+                    Long projectId = scannerN.nextLong();
+                    String message = projectService.assignProjectToCompany(companyId, projectId);
+                    System.out.println(message);
+                }
             }
         }
-
     }
 }
