@@ -24,7 +24,7 @@ public class Company extends BaseEntity {
     private String name;
     @OneToOne(cascade = {REMOVE}, orphanRemoval = true)
     private Address address;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = {REMOVE})
     private List<Project> projects;
 
     public Company(String name) {

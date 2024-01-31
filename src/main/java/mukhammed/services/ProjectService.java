@@ -5,6 +5,8 @@ import mukhammed.dao.ProjectDao;
 import mukhammed.entities.Company;
 import mukhammed.entities.Project;
 
+import java.util.List;
+
 /**
  * @author Mukhammed Asantegin
  */
@@ -53,9 +55,32 @@ public class ProjectService {
         return null;
     }
 
-    private Project findById(Long id) {
+    public Project findById(Long id) {
         return projectDao.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Project with id: " + id + " not found!"));
+    }
+
+    public String deleteById(Long id) {
+        try {
+            findById(id);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        projectDao.deleteById(id);
+        return "Successfully deleted!";
+    }
+
+    public String update(Long id, Project newProject) {
+        try {
+            findById(id);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return projectDao.update(id, newProject);
+    }
+
+    public List<Project> findAll() {
+        return projectDao.findAll();
     }
 }

@@ -11,11 +11,9 @@ import java.util.Scanner;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args ) {
+public class App {
+    public static void main(String[] args) {
         Scanner scannerS = new Scanner(System.in);
         Scanner scannerN = new Scanner(System.in);
         // Services
@@ -23,7 +21,7 @@ public class App
         CompanyService companyService = new CompanyService();
         ProjectService projectService = new ProjectService();
 
-        while (true){
+        while (true) {
             System.out.println("""
                               "Address"
                     1.  Save 
@@ -47,53 +45,53 @@ public class App
                     17.  Update 
                     18.  Find by id
                     19.  Find all
-               
+                                   
                     """);
 
-            switch (scannerN.nextInt()){
+            switch (scannerN.nextInt()) {
                 // Address CRUD
-                case 1 ->{
+                case 1 -> {
                     System.out.println(addressService.save(new Address("Kyrgyzstan")));
                 }
-                case 2 ->{
+                case 2 -> {
                     System.out.print("Write address id for delete: ");
                     String message = addressService.deleteById(scannerN.nextLong());
                     System.out.println(message);
                 }
-                case 3 ->{
+                case 3 -> {
                     System.out.print("Write address id for update: ");
                     System.out.println(addressService.update(scannerN.nextLong(), new Address("USA")));
                 }
-                case 4 ->{
+                case 4 -> {
                     System.out.print("Write address id for find: ");
                     Address address = addressService.findById(scannerN.nextLong());
                     System.out.println(address);
                 }
-                case 5 ->{
+                case 5 -> {
                     addressService.findAll().forEach(System.out::println);
                 }
                 // Company CRUD
-                case 6 ->{
+                case 6 -> {
                     System.out.println(companyService.save(new Company("Peaksoft")));
                 }
-                case 7 ->{
+                case 7 -> {
                     System.out.print("Write company id for delete: ");
                     String message = companyService.deleteById(scannerN.nextLong());
                     System.out.println(message);
                 }
-                case 8 ->{
+                case 8 -> {
                     System.out.print("Write company id for update: ");
                     System.out.println(companyService.update(scannerN.nextLong(), new Company("Google")));
                 }
-                case 9 ->{
+                case 9 -> {
                     System.out.print("Write company id for find: ");
                     Company company = companyService.findById(scannerN.nextLong());
                     System.out.println(company);
                 }
-                case 10 ->{
+                case 10 -> {
                     companyService.findAll().forEach(System.out::println);
                 }
-                case 11 ->{
+                case 11 -> {
                     System.out.print("Write address id: ");
                     Long addressId = scannerN.nextLong();
                     System.out.print("Write company id: ");
@@ -101,27 +99,46 @@ public class App
                     String message = companyService.assignCompanyToAddress(addressId, companyId);
                     System.out.println(message);
                 }
-                case 12 ->{
+                case 12 -> {
                     System.out.println("Write address id: ");
                     Long addressId = scannerN.nextLong();
                     Company company = companyService.findCompanyByAddressId(addressId);
                     System.out.println(company);
                 }
                 // Project CRUD
-                case 13 ->{
+                case 13 -> {   //sava
                     System.out.println(projectService.save(Project.builder().title("LMS").build()));
                 }
-                case 14 ->{
+                case 14 -> {   //save 2
                     System.out.print("Write company id, for assign new project: ");
                     System.out.println(projectService.save(scannerN.nextLong(), new Project("TRACK")));
                 }
-                case 15 ->{
+                case 15 -> {  //assign
                     System.out.print("Write company id: ");
                     Long companyId = scannerN.nextLong();
                     System.out.print("Write project id: ");
                     Long projectId = scannerN.nextLong();
                     String message = projectService.assignProjectToCompany(companyId, projectId);
                     System.out.println(message);
+                }
+                case 16 -> {    //delete
+                    System.out.println("Write project id: ");
+                    System.out.println(projectService.deleteById(scannerN.nextLong()));
+                }
+                case 17 -> {   //update
+                    System.out.print("Write project id: ");
+                    String result = projectService.update(
+                            scannerN.nextLong(),
+                            Project.builder().title("Instagram").build()
+                    );
+                    System.out.println(result);
+                }
+                case 18 -> { //findById
+                    System.out.print("Write project id: ");
+                    System.out.println(projectService.findById(scannerN.nextLong()));
+                }
+                case 19 -> { //findAll
+                    projectService.findAll().forEach(System.out::println);
                 }
             }
         }

@@ -17,7 +17,8 @@ import lombok.*;
 @SequenceGenerator(name = "base_id_gen", sequenceName = "company", allocationSize = 1, initialValue = 1)
 public class Project extends BaseEntity{
     private String title;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Company company;
 
     public Project(String title) {
