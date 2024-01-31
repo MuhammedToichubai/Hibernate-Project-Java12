@@ -3,6 +3,7 @@ package mukhammed.config;
 import jakarta.persistence.EntityManagerFactory;
 import mukhammed.entities.Address;
 import mukhammed.entities.Company;
+import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -29,6 +30,7 @@ public class DatabaseConnection {
         configuration.addAnnotatedClass(Address.class);
         configuration.addAnnotatedClass(Company.class);
         configuration.addAnnotatedClass(Project.class);
+        configuration.addAnnotatedClass(Programmer.class);
         return configuration.buildSessionFactory();
 
     }

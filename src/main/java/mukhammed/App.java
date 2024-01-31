@@ -2,9 +2,11 @@ package mukhammed;
 
 import mukhammed.entities.Address;
 import mukhammed.entities.Company;
+import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 import mukhammed.services.AddressService;
 import mukhammed.services.CompanyService;
+import mukhammed.services.ProgrammerService;
 import mukhammed.services.ProjectService;
 
 import java.util.Scanner;
@@ -20,6 +22,7 @@ public class App {
         AddressService addressService = new AddressService();
         CompanyService companyService = new CompanyService();
         ProjectService projectService = new ProjectService();
+        ProgrammerService programmerService = new ProgrammerService();
 
         while (true) {
             System.out.println("""
@@ -45,6 +48,15 @@ public class App {
                     17.  Update 
                     18.  Find by id
                     19.  Find all
+                   
+                         "Programmers"
+                    20.  Save 
+                    21.  Assign Programmer to Project
+                    22.  Assign Programmers to Project
+                    23.  Delete 
+                    24.  Update 
+                    25.  Find by id
+                    26.  Find all
                                    
                     """);
 
@@ -139,6 +151,41 @@ public class App {
                 }
                 case 19 -> { //findAll
                     projectService.findAll().forEach(System.out::println);
+                }
+                //Programmer CRUD
+                case 20 ->{ //save
+                    String message = programmerService.save(
+                            Programmer.builder()
+                                    .fullName("Mukhammed Asantegin")
+                                    .email("mukhammed.codes@gmail.com")
+                                    .build()
+                    );
+                    System.out.println(message);
+
+                }
+                case 21 ->{ //assign programmer to project
+                    System.out.print("Write programmer id: ");
+                    Long programmerId = scannerN.nextLong();
+                    System.out.print("Write project id: ");
+                    Long projectId = scannerN.nextLong();
+                    String message =
+                            programmerService.assignProgrammerToProject(programmerId, projectId);
+
+                }
+                case 22 ->{ //assign programmers to project
+
+                }
+                case 23 ->{ //delete
+
+                }
+                case 24 ->{ //update
+
+                }
+                case 25 ->{ //findById
+
+                }
+                case 26 ->{ //findAll
+
                 }
             }
         }
