@@ -26,6 +26,9 @@ public class Programmer extends BaseEntity{
     @ManyToMany(mappedBy = "programmers", cascade = {PERSIST, DETACH, REFRESH, MERGE})
     private List<Project> projects;
 
+    @OneToOne(cascade = {REMOVE}, orphanRemoval = true)
+    private Address address;
+
     public void addProject(Project project) {
         if (project == null) projects  = new ArrayList<>();
         projects.add(project);

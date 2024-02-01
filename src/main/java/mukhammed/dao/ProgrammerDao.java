@@ -101,9 +101,10 @@ public class ProgrammerDao {
             entityManager.getTransaction().begin();
             Programmer programmer = entityManager.find(Programmer.class, id);
             programmer.getProjects().clear();
-            entityManager.createQuery("delete from Programmer p where p.id = :parId")
-                    .setParameter("parId", id)
-                    .executeUpdate();
+//            entityManager.createQuery("delete from Programmer p where p.id = :parId")
+//                    .setParameter("parId", id)
+//                    .executeUpdate();
+            entityManager.remove(programmer);
             entityManager.getTransaction().commit();
 
         } catch (Exception e) {
