@@ -5,6 +5,7 @@ import mukhammed.dao.ProjectDao;
 import mukhammed.entities.Programmer;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mukhammed Asantegin
@@ -69,5 +70,9 @@ public class ProgrammerService {
 
     public List<Programmer> findAll() {
         return programmerDao.findAll();
+    }
+
+    public Map<String, List<Programmer>> groupProgrammersByCompanyName() {
+       return programmerDao.groupProgrammersByCompanyName();
     }
 }

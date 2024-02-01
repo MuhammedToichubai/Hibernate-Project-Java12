@@ -6,9 +6,7 @@ import mukhammed.config.DatabaseConnection;
 import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Mukhammed Asantegin
@@ -151,7 +149,7 @@ public class ProgrammerDao {
             // Version 2
             programmers = entityManager
                     .createNativeQuery("select * from programmers", Programmer.class)
-                            .getResultList();
+                    .getResultList();
             entityManager.getTransaction().commit();
         }catch (Exception e){
             if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
@@ -161,4 +159,34 @@ public class ProgrammerDao {
         }
         return programmers;
     }
+
+    public Map<String, List<Programmer>> groupProgrammersByCompanyName() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            List<Object[]> resultList = entityManager.createQuery("""
+                        select c.name, p from Company c 
+                        join c.projects pr
+                        join pr.programmers p
+                        """, Object[].class)
+                    .getResultList();
+
+
+            Map<String, List<Programmer>> groupedProgrammers = new HashMap<>();
+            for (Object[] result : resultList) {
+                String companyName = (String) result[0];
+                Programmer programmer = (Programmer) result[1];
+                groupedProgrammers.computeIfAbsent(companyName, x -> new ArrayList<>()).add(programmer);
+            }
+            entityManager.getTransaction().commit();
+            return groupedProgrammers;
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
+            System.err.println(e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+        return Collections.emptyMap();
+    }
+
 }

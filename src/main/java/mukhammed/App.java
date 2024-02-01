@@ -10,6 +10,7 @@ import mukhammed.services.ProgrammerService;
 import mukhammed.services.ProjectService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -58,6 +59,7 @@ public class App {
                     24.  Update 
                     25.  Find by id
                     26.  Find all
+                    27.  Group Programmers By Company name
                                    
                     """);
 
@@ -212,6 +214,10 @@ public class App {
                 case 26 -> { //findAll
                     programmerService.findAll().forEach(System.out::println);
 
+                }
+                case 27 ->{
+                    Map<String, List<Programmer>> groupProgrammers = programmerService.groupProgrammersByCompanyName();
+                    System.out.println(groupProgrammers);
                 }
             }
         }
