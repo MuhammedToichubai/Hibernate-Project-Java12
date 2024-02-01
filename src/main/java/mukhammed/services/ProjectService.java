@@ -3,8 +3,11 @@ package mukhammed.services;
 import mukhammed.dao.CompanyDao;
 import mukhammed.dao.ProjectDao;
 import mukhammed.entities.Company;
+import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,5 +85,17 @@ public class ProjectService {
 
     public List<Project> findAll() {
         return projectDao.findAll();
+    }
+
+    public List<Programmer> findProgrammersByCompanyId(Long companyId) {
+        try {
+            companyDao.findById(companyId)
+                    .orElseThrow(() ->
+                            new RuntimeException("Company with id: " + companyId + " not found"));
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return new ArrayList<>();
+        }
+        return projectDao.findProgrammersByCompanyId(companyId);
     }
 }

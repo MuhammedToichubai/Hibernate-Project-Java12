@@ -60,6 +60,7 @@ public class App {
                     25.  Find by id
                     26.  Find all
                     27.  Group Programmers By Company name
+                    28.  Find all Programmers By CompanyId
                                    
                     """);
 
@@ -215,10 +216,17 @@ public class App {
                     programmerService.findAll().forEach(System.out::println);
 
                 }
-                case 27 ->{
+                case 27 ->{ //groupBy
                     Map<String, List<Programmer>> groupProgrammers = programmerService.groupProgrammersByCompanyName();
                     System.out.println(groupProgrammers);
                 }
+                case 28 ->{ //findProgrammersByCompanyId
+                    System.out.print("Write company id: ");
+                   List<Programmer>  programmers = projectService.findProgrammersByCompanyId(scannerN.nextLong());
+                   programmers.forEach(System.out::println);
+
+                }
+                default -> System.out.println("Error commands");
             }
         }
     }

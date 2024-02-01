@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import mukhammed.config.DatabaseConnection;
 import mukhammed.entities.Company;
+import mukhammed.entities.Programmer;
 import mukhammed.entities.Project;
 
 import java.util.ArrayList;
@@ -136,5 +137,27 @@ public class ProjectDao {
             entityManager.close();
         }
         return projects;
+    }
+
+    public List<Programmer> findProgrammersByCompanyId(Long companyId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            List<Programmer> programmerList = entityManager.createQuery("""
+                            select p from Programmer p 
+                            join p.projects pr
+                            join pr.company c
+                            where c.id = :parCompanyId
+                            """, Programmer.class)
+                    .setParameter("parCompanyId", companyId)
+                    .getResultList();
+            entityManager.getTransaction().commit();
+
+            return programmerList;
+        }catch (Exception e){
+            if (entityManager.getTransaction().isActive()) entityManager.getTransaction().rollback();
+            System.err.println(e.getMessage());
+        }
+        return new ArrayList<>();
     }
 }
